@@ -1,2 +1,215 @@
-/* We'll add our styles here */
+:root {
+  /* ——— Base (dark theme shell) ——— */
+  --color-bg: #0f1115;
+  --color-bg-elevated: #181b22;
+  --color-surface: #1e222b;
+  --color-surface-hover: #262b36;
+  --color-text: #e8eaef;
+  --color-text-muted: #8b93a1;
+  --color-border: #2f3542;
+  --color-border-subtle: #222731;
 
+  /* ——— Work mode (warm, focused) ——— */
+  --color-work: #e85d4a;
+  --color-work-bright: #f0705f;
+  --color-work-dim: #3d2524;
+  --color-work-glow: rgba(232, 93, 74, 0.22);
+  --color-work-on-work: #1a0f0e;
+
+  /* ——— Break mode (cool, restorative) ——— */
+  --color-break: #4ac9a3;
+  --color-break-bright: #5eddb4;
+  --color-break-dim: #1e3330;
+  --color-break-glow: rgba(74, 201, 163, 0.2);
+  --color-break-on-break: #0c1514;
+
+  /* ——— Spacing ——— */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+
+  /* ——— Typography ——— */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-timer: clamp(3.5rem, 10vw, 5.5rem);
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-timer: 300;
+
+  --line-height-tight: 1.2;
+  --line-height-body: 1.5;
+  --line-height-timer: 1.05;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-timer: 0.04em;
+
+  /* ——— Border radius ——— */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Session mode: `data-mode` on `#app` — `work` (default) or `break` (JS updates). */
+body {
+  --mode-accent: var(--color-work);
+  --mode-accent-bright: var(--color-work-bright);
+  --mode-glow: var(--color-work-glow);
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  background-image: radial-gradient(
+    ellipse 85% 55% at 50% -15%,
+    var(--mode-glow),
+    transparent 60%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+body:has(#app[data-mode="break"]) {
+  --mode-accent: var(--color-break);
+  --mode-accent-bright: var(--color-break-bright);
+  --mode-glow: var(--color-break-glow);
+}
+
+#app {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+}
+
+.app-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-inline-start: var(--space-xs) solid var(--mode-accent);
+  box-shadow: 0 var(--space-sm) var(--space-xl) 0 var(--mode-glow);
+}
+
+.timer__mode {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--mode-accent);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timer__display {
+  padding-block: var(--space-sm);
+}
+
+.timer__time {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-timer);
+  font-weight: var(--font-weight-timer);
+  line-height: var(--line-height-timer);
+  letter-spacing: var(--letter-spacing-timer);
+  font-variant-numeric: tabular-nums;
+  color: var(--mode-accent);
+  text-align: center;
+}
+
+.timer__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.timer__control {
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.timer__control:focus-visible {
+  outline: 2px solid var(--mode-accent-bright);
+  outline-offset: 2px;
+}
+
+.timer__control--primary {
+  background-color: var(--mode-accent);
+  color: var(--color-text);
+}
+
+.timer__control--primary:hover {
+  background-color: var(--mode-accent-bright);
+}
+
+.timer__control--primary:focus-visible {
+  outline-color: var(--mode-accent-bright);
+}
+
+.timer__control--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.timer__control--secondary:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+  border-color: var(--color-border-subtle);
+}
+
+.timer__control--secondary:focus-visible {
+  outline-color: var(--color-text-muted);
+}

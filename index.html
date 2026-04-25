@@ -4,10 +4,34 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pomodoro-timer</title>
+    <title>Pomodoro Timer</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app" data-mode="work">
+      <h1 class="app-title" id="app-title">Pomodoro Timer</h1>
+
+      <main class="timer" aria-labelledby="app-title">
+        <p class="timer__mode" id="timer-mode" role="status" aria-live="polite">Work</p>
+
+        <div class="timer__display" role="timer" aria-live="polite" aria-atomic="true">
+          <time class="timer__time" id="timer-display" datetime="PT25M">25:00</time>
+        </div>
+
+        <div class="timer__controls">
+          <button
+            type="button"
+            class="timer__control timer__control--primary"
+            id="timer-start-pause"
+            aria-pressed="false"
+          >
+            Start
+          </button>
+          <button type="button" class="timer__control timer__control--secondary" id="timer-reset">
+            Reset
+          </button>
+        </div>
+      </main>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
