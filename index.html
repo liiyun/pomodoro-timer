@@ -11,11 +11,23 @@
       <h1 class="app-title" id="app-title">Pomodoro Timer</h1>
 
       <main class="timer" aria-labelledby="app-title">
+        <div class="timer__tabs" role="tablist" aria-label="Timer modes">
+          <button type="button" class="timer__tab is-active" id="mode-work" data-mode-tab="work" role="tab" aria-selected="true">
+            Work
+          </button>
+          <button type="button" class="timer__tab" id="mode-short-break" data-mode-tab="shortBreak" role="tab" aria-selected="false">
+            Break
+          </button>
+        </div>
+
         <p class="timer__mode" id="timer-mode" role="status" aria-live="polite">Work</p>
 
         <div class="timer__display" role="timer" aria-live="polite" aria-atomic="true">
           <time class="timer__time" id="timer-display" datetime="PT25M">25:00</time>
         </div>
+
+        <p class="timer__next" id="timer-next" role="status" aria-live="polite"></p>
+        <p class="timer__feedback" id="timer-feedback" role="status" aria-live="polite"></p>
 
         <div class="timer__controls">
           <button
@@ -30,7 +42,49 @@
             Reset
           </button>
         </div>
+
+        <div class="timer__stats" aria-live="polite">
+          <p class="timer__sessions"><span id="session-count">0</span> focus sessions</p>
+          <p class="timer__active-task">Tracking now: <span id="active-task-label">No task selected</span></p>
+          <p class="timer__active-task-detail" id="active-task-detail">Pick a task below, or start a general focus session.</p>
+        </div>
       </main>
+
+      <section class="panel panel--tasks" aria-labelledby="tasks-title">
+        <div class="panel__header">
+          <h2 id="tasks-title">Tasks</h2>
+          <p class="panel__meta"><span id="tasks-pending-count">0</span> open · <span id="tasks-done-count">0</span> completed</p>
+        </div>
+        <form class="tasks__form" id="tasks-form">
+          <label class="visually-hidden" for="task-input">New task</label>
+          <input id="task-input" name="task" type="text" maxlength="80" placeholder="Add a focus task (e.g., Write proposal intro)" required />
+          <button type="submit" class="timer__control timer__control--primary">Add task</button>
+        </form>
+        <ul class="tasks__list" id="tasks-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="panel panel--settings" aria-labelledby="settings-title">
+        <h2 id="settings-title">Settings</h2>
+        <form id="settings-form" class="settings__form">
+          <label for="work-minutes">Work (minutes)</label>
+          <input id="work-minutes" name="workMin" type="number" min="1" max="60" required />
+
+          <label for="short-break-minutes">Break (minutes)</label>
+          <input id="short-break-minutes" name="shortBreakMin" type="number" min="1" max="60" required />
+
+          <label class="settings__checkbox">
+            <input id="auto-switch" name="autoSwitch" type="checkbox" />
+            Auto-switch modes
+          </label>
+
+          <div class="settings__actions">
+            <button type="submit" class="timer__control timer__control--primary">Done</button>
+            <button type="button" class="timer__control timer__control--secondary" id="settings-reset-default">
+              Back to default
+            </button>
+          </div>
+        </form>
+      </section>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
