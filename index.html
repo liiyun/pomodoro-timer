@@ -18,6 +18,9 @@
           <button type="button" class="timer__tab" id="mode-short-break" data-mode-tab="shortBreak" role="tab" aria-selected="false">
             Break
           </button>
+          <button type="button" class="timer__tab" id="mode-long-break" data-mode-tab="longBreak" role="tab" aria-selected="false">
+            Long break
+          </button>
         </div>
 
         <p class="timer__mode" id="timer-mode" role="status" aria-live="polite">Work</p>
@@ -71,6 +74,9 @@
 
           <label for="short-break-minutes">Break (minutes)</label>
           <input id="short-break-minutes" name="shortBreakMin" type="number" min="1" max="60" required />
+
+          <label for="long-break-minutes">Long break (minutes)</label>
+          <input id="long-break-minutes" name="longBreakMin" type="number" min="1" max="60" required />
 
           <label class="settings__checkbox">
             <input id="auto-switch" name="autoSwitch" type="checkbox" />

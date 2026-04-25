@@ -5,16 +5,18 @@ const TICK_MS = 250;
 const MIN_MINUTES = 1;
 const MAX_MINUTES = 60;
 
-/** @typedef {'work' | 'shortBreak'} TimerMode */
+/** @typedef {'work' | 'shortBreak' | 'longBreak'} TimerMode */
 
 const MODE_LABELS = {
   work: 'Work',
   shortBreak: 'Break',
+  longBreak: 'Long break',
 };
 
 const DEFAULT_SETTINGS = {
   workMin: 25,
   shortBreakMin: 5,
+  longBreakMin: 15,
   autoSwitch: true,
 };
 
@@ -40,6 +42,7 @@ const modeTabEls = Array.from(document.querySelectorAll('[data-mode-tab]'));
 const settingsInputs = {
   workMin: mustElement('work-minutes'),
   shortBreakMin: mustElement('short-break-minutes'),
+  longBreakMin: mustElement('long-break-minutes'),
   autoSwitch: mustElement('auto-switch'),
 };
 
@@ -89,12 +92,14 @@ function clampMinutes(value) {
 
 function durationForMode(mode) {
   if (mode === 'work') return state.settings.workMin * 60;
-  return state.settings.shortBreakMin * 60;
+  if (mode === 'shortBreak') return state.settings.shortBreakMin * 60;
+  return state.settings.longBreakMin * 60;
 }
 
 function modeTabLabel(mode) {
   if (mode === 'work') return 'Work';
-  return 'Break';
+  if (mode === 'shortBreak') return 'Break';
+  return 'Long break';
 }
 
 function formatMmSs(totalSeconds) {
@@ -117,6 +122,9 @@ function isoDuration(totalSeconds) {
 }
 
 function nextModeAfterWork() {
+  if (state.sessions.completedInCycle >= 4) {
+    return 'longBreak';
+  }
   return 'shortBreak';
 }
 
@@ -208,6 +216,9 @@ function advancePhase() {
     state.sessions.completedInCycle += 1;
     state.timer.mode = nextModeAfterWork();
   } else {
+    if (state.timer.mode === 'longBreak') {
+      state.sessions.completedInCycle = 0;
+    }
     state.timer.mode = 'work';
   }
 
@@ -358,10 +369,11 @@ function hydrateFromStorage() {
     const settings = parsed.settings ?? {};
     state.settings.workMin = clampMinutes(Number(settings.workMin) || DEFAULT_SETTINGS.workMin);
     state.settings.shortBreakMin = clampMinutes(Number(settings.shortBreakMin) || DEFAULT_SETTINGS.shortBreakMin);
+    state.settings.longBreakMin = clampMinutes(Number(settings.longBreakMin) || DEFAULT_SETTINGS.longBreakMin);
     state.settings.autoSwitch = Boolean(settings.autoSwitch);
 
     const timer = parsed.timer ?? {};
-    state.timer.mode = ['work', 'shortBreak'].includes(timer.mode) ? timer.mode : 'work';
+    state.timer.mode = ['work', 'shortBreak', 'longBreak'].includes(timer.mode) ? timer.mode : 'work';
     state.timer.isRunning = Boolean(timer.isRunning);
     state.timer.remainingSec = Math.max(0, Math.floor(Number(timer.remainingSec) || durationForMode(state.timer.mode)));
     state.timer.targetEndMs = Number.isFinite(timer.targetEndMs) ? timer.targetEndMs : null;
@@ -461,6 +473,7 @@ function renderTasks() {
 function renderSettings() {
   settingsInputs.workMin.value = String(state.settings.workMin);
   settingsInputs.shortBreakMin.value = String(state.settings.shortBreakMin);
+  settingsInputs.longBreakMin.value = String(state.settings.longBreakMin);
   settingsInputs.autoSwitch.checked = state.settings.autoSwitch;
 }
 
@@ -517,7 +530,7 @@ resetBtn.addEventListener('click', () => {
 modeTabEls.forEach((tab) => {
   tab.addEventListener('click', () => {
     const mode = tab.dataset.modeTab;
-    if (mode === 'work' || mode === 'shortBreak') {
+    if (mode === 'work' || mode === 'shortBreak' || mode === 'longBreak') {
       setMode(mode);
     }
   });
@@ -536,8 +549,10 @@ settingsFormEl.addEventListener('submit', (event) => {
   event.preventDefault();
   const nextWork = clampMinutes(Number(settingsInputs.workMin.value));
   const nextShort = clampMinutes(Number(settingsInputs.shortBreakMin.value));
+  const nextLong = clampMinutes(Number(settingsInputs.longBreakMin.value));
   state.settings.workMin = nextWork;
   state.settings.shortBreakMin = nextShort;
+  state.settings.longBreakMin = nextLong;
   state.settings.autoSwitch = settingsInputs.autoSwitch.checked;
   if (!state.timer.isRunning) {
     state.timer.remainingSec = durationForMode(state.timer.mode);
@@ -577,5 +592,7 @@ document.addEventListener('keydown', (event) => {
     setMode('work');
   } else if (event.key === '2') {
     setMode('shortBreak');
+  } else if (event.key === '3') {
+    setMode('longBreak');
   }
 });

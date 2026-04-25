@@ -16,6 +16,10 @@
   --color-short-break-bright: #5eddb4;
   --color-short-break-glow: rgba(74, 201, 163, 0.2);
 
+  --color-long-break: #4a8ee8;
+  --color-long-break-bright: #69a2ee;
+  --color-long-break-glow: rgba(74, 142, 232, 0.2);
+
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 0.75rem;
@@ -87,6 +91,13 @@ body:has(#app[data-mode="shortBreak"]) {
   --mode-accent-bright: var(--color-short-break-bright);
   --mode-glow: var(--color-short-break-glow);
   --mode-border: var(--color-short-break);
+}
+
+body:has(#app[data-mode="longBreak"]) {
+  --mode-accent: var(--color-long-break);
+  --mode-accent-bright: var(--color-long-break-bright);
+  --mode-glow: var(--color-long-break-glow);
+  --mode-border: var(--color-long-break);
 }
 
 #app {
