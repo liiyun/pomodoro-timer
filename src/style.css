@@ -1,2 +1,102 @@
-/* We'll add our styles here */
+:root {
+  /* ——— Base (dark theme shell) ——— */
+  --color-bg: #0f1115;
+  --color-bg-elevated: #181b22;
+  --color-surface: #1e222b;
+  --color-surface-hover: #262b36;
+  --color-text: #e8eaef;
+  --color-text-muted: #8b93a1;
+  --color-border: #2f3542;
+  --color-border-subtle: #222731;
 
+  /* ——— Work mode (warm, focused) ——— */
+  --color-work: #e85d4a;
+  --color-work-bright: #f0705f;
+  --color-work-dim: #3d2524;
+  --color-work-glow: rgba(232, 93, 74, 0.22);
+  --color-work-on-work: #1a0f0e;
+
+  /* ——— Break mode (cool, restorative) ——— */
+  --color-break: #4ac9a3;
+  --color-break-bright: #5eddb4;
+  --color-break-dim: #1e3330;
+  --color-break-glow: rgba(74, 201, 163, 0.2);
+  --color-break-on-break: #0c1514;
+
+  /* ——— Spacing ——— */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.5rem;
+
+  /* ——— Typography ——— */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-timer: clamp(3.5rem, 10vw, 5.5rem);
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-timer: 300;
+
+  --line-height-tight: 1.2;
+  --line-height-body: 1.5;
+  --line-height-timer: 1.05;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-timer: 0.04em;
+
+  /* ——— Border radius ——— */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+#app {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text);
+  text-align: center;
+}
