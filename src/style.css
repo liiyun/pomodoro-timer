@@ -68,7 +68,7 @@
   margin: 0;
 }
 
-/* Session mode: toggle `data-mode` on `body` — `work` (default) or `break`. */
+/* Session mode: `data-mode` on `#app` — `work` (default) or `break` (JS updates). */
 body {
   --mode-accent: var(--color-work);
   --mode-accent-bright: var(--color-work-bright);
@@ -92,7 +92,7 @@ body {
   padding: var(--space-lg);
 }
 
-body[data-mode="break"] {
+body:has(#app[data-mode="break"]) {
   --mode-accent: var(--color-break);
   --mode-accent-bright: var(--color-break-bright);
   --mode-glow: var(--color-break-glow);
