@@ -1,0 +1,53 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  --mode-accent: var(--color-work);
+  --mode-accent-bright: var(--color-work-bright);
+  --mode-glow: var(--color-work-glow);
+  --mode-border: var(--color-work);
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  background-image: radial-gradient(
+    ellipse 85% 55% at 50% -15%,
+    var(--mode-glow),
+    transparent 60%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+body:has(#app[data-mode="shortBreak"]) {
+  --mode-accent: var(--color-short-break);
+  --mode-accent-bright: var(--color-short-break-bright);
+  --mode-glow: var(--color-short-break-glow);
+  --mode-border: var(--color-short-break);
+}
+
+body:has(#app[data-mode="longBreak"]) {
+  --mode-accent: var(--color-long-break);
+  --mode-accent-bright: var(--color-long-break-bright);
+  --mode-glow: var(--color-long-break-glow);
+  --mode-border: var(--color-long-break);
+}
+
+#app {
+  width: 100%;
+  max-width: 42rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-xl);
+}

@@ -1,4 +1,4 @@
-import './style.css';
+import './styles/index.css';
 
 const STORAGE_KEY = 'pomodorino.v1';
 const TICK_MS = 250;
