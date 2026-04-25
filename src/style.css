@@ -68,7 +68,11 @@
   margin: 0;
 }
 
+/* Session mode: toggle `data-mode` on `body` — `work` (default) or `break`. */
 body {
+  --mode-accent: var(--color-work);
+  --mode-accent-bright: var(--color-work-bright);
+  --mode-glow: var(--color-work-glow);
   min-height: 100vh;
   font-family: var(--font-body);
   font-size: var(--font-size-md);
@@ -76,11 +80,22 @@ body {
   line-height: var(--line-height-body);
   color: var(--color-text);
   background-color: var(--color-bg);
+  background-image: radial-gradient(
+    ellipse 85% 55% at 50% -15%,
+    var(--mode-glow),
+    transparent 60%
+  );
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: var(--space-lg);
+}
+
+body[data-mode="break"] {
+  --mode-accent: var(--color-break);
+  --mode-accent-bright: var(--color-break-bright);
+  --mode-glow: var(--color-break-glow);
 }
 
 #app {
@@ -108,12 +123,18 @@ body {
   align-items: center;
   gap: var(--space-lg);
   width: 100%;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-inline-start: var(--space-xs) solid var(--mode-accent);
+  box-shadow: 0 var(--space-sm) var(--space-xl) 0 var(--mode-glow);
 }
 
 .timer__mode {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-muted);
+  color: var(--mode-accent);
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -131,7 +152,7 @@ body {
   line-height: var(--line-height-timer);
   letter-spacing: var(--letter-spacing-timer);
   font-variant-numeric: tabular-nums;
-  color: var(--color-text);
+  color: var(--mode-accent);
   text-align: center;
 }
 
@@ -160,21 +181,21 @@ body {
 }
 
 .timer__control:focus-visible {
-  outline: 2px solid var(--color-work-bright);
+  outline: 2px solid var(--mode-accent-bright);
   outline-offset: 2px;
 }
 
 .timer__control--primary {
-  background-color: var(--color-work);
+  background-color: var(--mode-accent);
   color: var(--color-text);
 }
 
 .timer__control--primary:hover {
-  background-color: var(--color-work-bright);
+  background-color: var(--mode-accent-bright);
 }
 
 .timer__control--primary:focus-visible {
-  outline-color: var(--color-work-bright);
+  outline-color: var(--mode-accent-bright);
 }
 
 .timer__control--secondary {
