@@ -90,6 +90,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xl);
 }
 
 .app-title {
@@ -99,4 +100,95 @@ body {
   letter-spacing: var(--letter-spacing-tight);
   color: var(--color-text);
   text-align: center;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  width: 100%;
+}
+
+.timer__mode {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timer__display {
+  padding-block: var(--space-sm);
+}
+
+.timer__time {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-timer);
+  font-weight: var(--font-weight-timer);
+  line-height: var(--line-height-timer);
+  letter-spacing: var(--letter-spacing-timer);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.timer__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.timer__control {
+  font-family: inherit;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.timer__control:focus-visible {
+  outline: 2px solid var(--color-work-bright);
+  outline-offset: 2px;
+}
+
+.timer__control--primary {
+  background-color: var(--color-work);
+  color: var(--color-text);
+}
+
+.timer__control--primary:hover {
+  background-color: var(--color-work-bright);
+}
+
+.timer__control--primary:focus-visible {
+  outline-color: var(--color-work-bright);
+}
+
+.timer__control--secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.timer__control--secondary:hover {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+  border-color: var(--color-border-subtle);
+}
+
+.timer__control--secondary:focus-visible {
+  outline-color: var(--color-text-muted);
 }
