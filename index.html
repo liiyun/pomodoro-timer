@@ -3,54 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pomodoro Timer</title>
   </head>
   <body>
     <div id="app" data-mode="work">
-      <h1 class="app-title" id="app-title">Pomodoro Timer</h1>
-
-      <main class="timer" aria-labelledby="app-title">
-        <div class="timer__tabs" role="tablist" aria-label="Timer modes">
-          <button type="button" class="timer__tab is-active" id="mode-work" data-mode-tab="work" role="tab" aria-selected="true">
-            Work
-          </button>
-          <button type="button" class="timer__tab" id="mode-short-break" data-mode-tab="shortBreak" role="tab" aria-selected="false">
-            Break
-          </button>
-          <button type="button" class="timer__tab" id="mode-long-break" data-mode-tab="longBreak" role="tab" aria-selected="false">
-            Long break
-          </button>
+      <main class="timer arcade-cabinet" aria-labelledby="app-title">
+        <div class="arcade-cabinet__sign" aria-hidden="true">
+          <span class="arcade-cabinet__slot"></span>
+          <h1 class="app-title" id="app-title">Pomodoro Timer</h1>
+          <span class="arcade-cabinet__slot"></span>
         </div>
 
-        <p class="timer__mode" id="timer-mode" role="status" aria-live="polite">Work</p>
-
-        <div class="timer__display" role="timer" aria-live="polite" aria-atomic="true">
-          <time class="timer__time" id="timer-display" datetime="PT25M">25:00</time>
+        <div class="arcade-cabinet__top-row">
+          <div class="arcade-cabinet__vent" aria-hidden="true"></div>
+          <div class="timer__tabs" role="tablist" aria-label="Timer modes">
+            <button type="button" class="timer__tab timer__tab--work is-active" id="mode-work" data-mode-tab="work" role="tab" aria-selected="true">
+              Work
+            </button>
+            <button type="button" class="timer__tab timer__tab--break" id="mode-short-break" data-mode-tab="shortBreak" role="tab" aria-selected="false">
+              Break
+            </button>
+            <button type="button" class="timer__tab timer__tab--long-break" id="mode-long-break" data-mode-tab="longBreak" role="tab" aria-selected="false">
+              Long break
+            </button>
+          </div>
+          <div class="arcade-cabinet__vent" aria-hidden="true"></div>
         </div>
 
-        <p class="timer__next" id="timer-next" role="status" aria-live="polite"></p>
-        <p class="timer__feedback" id="timer-feedback" role="status" aria-live="polite"></p>
+        <button
+          type="button"
+          class="arcade-cabinet__lever"
+          id="arcade-lever"
+          aria-label="Pull lever to reset timer"
+        >
+          <span class="arcade-cabinet__lever-bracket" aria-hidden="true"></span>
+          <span class="arcade-cabinet__lever-mount" aria-hidden="true"></span>
+          <span class="arcade-cabinet__lever-swing" aria-hidden="true">
+            <span class="arcade-cabinet__lever-arm"></span>
+            <span class="arcade-cabinet__lever-knob"></span>
+          </span>
+        </button>
+
+        <section class="timer__screen" aria-label="Timer display">
+          <p class="timer__mode" id="timer-mode" role="status" aria-live="polite">— WORK —</p>
+
+          <div class="timer__display" role="timer" aria-live="polite" aria-atomic="true">
+            <time class="timer__time" id="timer-display" datetime="PT25M">25:00</time>
+          </div>
+
+          <p class="timer__next" id="timer-next" role="status" aria-live="polite"></p>
+          <p class="timer__feedback" id="timer-feedback" role="status" aria-live="polite"></p>
+        </section>
 
         <div class="timer__controls">
-          <button
-            type="button"
-            class="timer__control timer__control--primary"
-            id="timer-start-pause"
-            aria-pressed="false"
-          >
-            Start
+          <button type="button" class="timer__side-control timer__side-control--ink-icon" id="arcade-settings-jump" aria-label="Jump to settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.75l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+              />
+            </svg>
           </button>
-          <button type="button" class="timer__control timer__control--secondary" id="timer-reset">
-            Reset
+
+          <div class="timer__main-controls">
+            <button
+              type="button"
+              class="timer__control timer__control--primary"
+              id="timer-start-pause"
+              aria-pressed="false"
+            >
+              Start
+            </button>
+            <button type="button" class="timer__control timer__control--secondary" id="timer-reset">
+              Reset
+            </button>
+          </div>
+
+          <button type="button" class="timer__side-control" id="arcade-sync-reset" aria-label="Reset timer">
+            <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+              <path d="M29 14a11 11 0 0 0-18-2l-4 4"></path>
+              <path d="M7 8v8h8"></path>
+              <path d="M11 26a11 11 0 0 0 18 2l4-4"></path>
+              <path d="M33 32v-8h-8"></path>
+            </svg>
           </button>
         </div>
 
         <div class="timer__stats" aria-live="polite">
+          <span class="timer__status-icon" aria-hidden="true">☆</span>
           <p class="timer__sessions"><span id="session-count">0</span> focus sessions</p>
+          <span class="timer__status-dot" aria-hidden="true"></span>
           <p class="timer__active-task">Tracking now: <span id="active-task-label">No task selected</span></p>
-          <p class="timer__active-task-detail" id="active-task-detail">Pick a task below, or start a general focus session.</p>
+          <span class="timer__status-icon timer__status-icon--ok" aria-hidden="true">✓</span>
         </div>
+        <p class="timer__active-task-detail" id="active-task-detail">Pick a task below, or start a general focus session.</p>
       </main>
 
       <section class="panel panel--tasks" aria-labelledby="tasks-title">
@@ -60,7 +109,7 @@
         </div>
         <form class="tasks__form" id="tasks-form">
           <label class="visually-hidden" for="task-input">New task</label>
-          <input id="task-input" name="task" type="text" maxlength="80" placeholder="Add a focus task (e.g., Write proposal intro)" required />
+          <input id="task-input" name="task" type="text" maxlength="80" placeholder="Add a focus task" required />
           <button type="submit" class="timer__control timer__control--primary">Add task</button>
         </form>
         <ul class="tasks__list" id="tasks-list" aria-live="polite"></ul>

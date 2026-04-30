@@ -8,9 +8,9 @@ const MAX_MINUTES = 60;
 /** @typedef {'work' | 'shortBreak' | 'longBreak'} TimerMode */
 
 const MODE_LABELS = {
-  work: 'Work',
-  shortBreak: 'Break',
-  longBreak: 'Long break',
+  work: 'WORK',
+  shortBreak: 'BREAK',
+  longBreak: 'LONG BREAK',
 };
 
 const DEFAULT_SETTINGS = {
@@ -37,6 +37,9 @@ const taskInputEl = mustElement('task-input');
 const tasksListEl = mustElement('tasks-list');
 const settingsFormEl = mustElement('settings-form');
 const settingsResetDefaultEl = mustElement('settings-reset-default');
+const arcadeSettingsJumpBtn = mustElement('arcade-settings-jump');
+const arcadeSyncResetBtn = mustElement('arcade-sync-reset');
+const arcadeLeverBtn = document.getElementById('arcade-lever');
 const modeTabEls = Array.from(document.querySelectorAll('[data-mode-tab]'));
 
 const settingsInputs = {
@@ -97,9 +100,9 @@ function durationForMode(mode) {
 }
 
 function modeTabLabel(mode) {
-  if (mode === 'work') return 'Work';
-  if (mode === 'shortBreak') return 'Break';
-  return 'Long break';
+  if (mode === 'work') return 'WORK';
+  if (mode === 'shortBreak') return 'BREAK';
+  return 'LONG BREAK';
 }
 
 function formatMmSs(totalSeconds) {
@@ -121,6 +124,20 @@ function isoDuration(totalSeconds) {
   return str;
 }
 
+function renderTimeSegments(totalSeconds) {
+  const formatted = formatMmSs(totalSeconds);
+  displayEl.replaceChildren(
+    ...Array.from(formatted, (char) => {
+      const span = document.createElement('span');
+      span.className = char === ':' ? 'timer__colon' : 'timer__digit';
+      span.setAttribute('aria-hidden', 'true');
+      span.textContent = char;
+      return span;
+    }),
+  );
+  displayEl.setAttribute('aria-label', formatted);
+}
+
 function nextModeAfterWork() {
   if (state.sessions.completedInCycle >= 4) {
     return 'longBreak';
@@ -130,9 +147,9 @@ function nextModeAfterWork() {
 
 function nextModeHint() {
   if (state.timer.mode === 'work') {
-    return `Up next: ${modeTabLabel(nextModeAfterWork())}`;
+    return `UP NEXT: ${modeTabLabel(nextModeAfterWork())}`;
   }
-  return 'Up next: Work';
+  return 'UP NEXT: WORK';
 }
 
 function stopTick() {
@@ -487,14 +504,14 @@ function renderTabs() {
 
 function render() {
   appEl.dataset.mode = state.timer.mode;
-  modeEl.textContent = MODE_LABELS[state.timer.mode];
-  displayEl.textContent = formatMmSs(state.timer.remainingSec);
+  modeEl.textContent = `— ${MODE_LABELS[state.timer.mode]} —`;
+  renderTimeSegments(state.timer.remainingSec);
   displayEl.dateTime = isoDuration(state.timer.remainingSec);
   toggleBtn.textContent = state.timer.isRunning ? 'Pause' : 'Start';
   toggleBtn.setAttribute('aria-pressed', state.timer.isRunning ? 'true' : 'false');
   sessionCountEl.textContent = String(state.sessions.completedPomodoros);
   nextEl.textContent = state.timer.blockedOnFinish
-    ? 'Session complete. Press Start to begin the next phase.'
+    ? 'SESSION COMPLETE. PRESS START TO BEGIN THE NEXT PHASE.'
     : nextModeHint();
 
   const pendingCount = state.tasks.filter((task) => !task.done).length;
@@ -515,15 +532,31 @@ function render() {
   renderSettings();
 }
 
-toggleBtn.addEventListener('click', () => {
+function onToggleStartPause() {
   if (state.timer.isRunning) {
     pauseTimer();
   } else {
     startTimer();
   }
+}
+
+toggleBtn.addEventListener('click', onToggleStartPause);
+arcadeLeverBtn?.addEventListener('click', () => {
+  resetTimer();
 });
 
 resetBtn.addEventListener('click', () => {
+  resetTimer();
+});
+
+arcadeSettingsJumpBtn.addEventListener('click', () => {
+  const settingsTitle = mustElement('settings-title');
+  settingsTitle.setAttribute('tabindex', '-1');
+  settingsTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  settingsTitle.focus({ preventScroll: true });
+});
+
+arcadeSyncResetBtn.addEventListener('click', () => {
   resetTimer();
 });
 
